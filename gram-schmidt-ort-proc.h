@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+void grsch_welcome();
 void vector_copy(double * temp_vector, double * original_vector, short component_num);
 void scalar_subtraction(double *vector1, double *vector2, double * result_vector, short component_num);
 void scalar_product_with_lambda(double * vector, short component_num, double lambda);

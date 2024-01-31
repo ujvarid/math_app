@@ -1,5 +1,10 @@
 #include "gram-schmidt-ort-proc.h"
 
+void grsch_welcome()
+{
+    printf("~~ Welcome to Gram-Schmidt ortogonalization process ~~\n\n");
+}
+
 void vector_copy(double * temp_vector, double * original_vector, short component_num)
 {
     for (int i = 0; i < component_num; ++i)
