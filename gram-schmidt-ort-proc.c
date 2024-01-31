@@ -165,6 +165,7 @@ void print_result(double **orthogonal_system, double ** orthonormal_system, shor
 
 void grsch_directing()
 {
+    grsch_welcome();
     short component_num = 0;
     short base_vector_num = 0;
     double **vector_space = NULL;
