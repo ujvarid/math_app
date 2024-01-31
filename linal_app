@@ -1,0 +1,19 @@
+#!/bin/sh
+
+echo -n "Building math program..."
+echo
+
+gcc dot_product.c dot_product.h gram-schmidt-ort-proc.c gram-schmidt-ort-proc.h main.c main.h matrix.c matrix.h -Wall -lm
+
+echo -n "Building completed"
+echo
+
+sleep 1
+
+clear
+
+./a.out
+
+sleep 1
+
+clear
