@@ -1,0 +1,49 @@
+                    Spiral Matrix Generator User Guide
+
+Introduction
+--------------------
+Welcome to the Spiral Matrix Generator! This program allows you to generate, save, load, and print spiral matrices with various customization options.
+
+Main Menu
+--------------------
+When you run the program, you will encounter a main menu with the following options:
+
+1. Generate a matrix: Create a new spiral matrix with customizable dimensions, departure direction, and rotation direction.
+2. Save a matrix: Save the current matrix to a text file for future use.
+3. Load a matrix: Load a previously saved matrix from a text file.
+4. Print actual matrix: Display the current matrix on the screen.
+5. Exit: Close the program.
+
+Generating a Matrix
+--------------------
+To generate a new matrix, choose option 1 from the main menu. You will be prompted to enter the following information:
+
+- Dimension of the matrix: Enter a number between 1 and 20 to determine the size of the matrix.
+- Departure Direction: Select the starting direction for the spiral. Choose from:
+  - u for up
+  - d for down
+  - r for right
+  - l for left
+- Rotation Direction: Choose the rotation direction for the spiral. Select either cw for clockwise or cc for counterclockwise.
+
+Once the information is provided, the program will generate the spiral matrix accordingly.
+
+Saving and Loading Matrices
+--------------------
+Option 2 allows you to save the current matrix to a text file, and option 3 allows you to load a matrix from a text file. Simply follow the prompts to enter the filename when saving or loading.
+
+Printing the Matrix
+--------------------
+Option 4 lets you display the current matrix on the screen.
+
+Exiting the Program
+--------------------
+Select option 5 to exit the program.
+
+Additional Notes
+--------------------
+- Ensure that you provide valid input when prompted.
+- Matrices are saved in text files with filenames indicating their dimensions, departure direction, and rotation direction.
+
+Enjoy using the Spiral Matrix Generator!
+

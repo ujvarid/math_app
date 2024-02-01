@@ -16,22 +16,23 @@ void choice_input(short * choice)
 	printf("0 ~ Basic matrix arithmetics\n");
 	printf("1 ~ Dot product\n");
 	printf("2 ~ Gram-Schmidt ortogonalization process\n");
-	printf("3 ~ Exit\n\n");
+	printf("3 ~ Spiral Matrix generator\n");
+	printf("4 ~ Exit\n\n");
 	printf("Choice: ");
 	scanf("%hd", choice);
 	printf("\n");
 }	
 
-void directing(short * choice)
+void directing_math_app(short * choice)
 {
 	bool bad_choice = false;
 	welcome();
-	while(*choice != 3)
+	while(*choice != 4)
 	{
 		do
 		{
 			choice_input(choice);
-			if(*choice <= 3 && *choice >= 0)
+			if(*choice <= 4 && *choice >= 0)
 			{
 				switch (*choice)
 				{
@@ -52,6 +53,11 @@ void directing(short * choice)
 				}
 				case 3:
 				{
+					directing();
+					break;
+				}
+				case 4:
+				{
 					exit_app();
 					break;
 				}
@@ -69,6 +75,6 @@ void directing(short * choice)
 int main()
 {
 	short choice;
-	directing(&choice);
+	directing_math_app(&choice);
 	return 0;
 }
