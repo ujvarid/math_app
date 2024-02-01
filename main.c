@@ -10,53 +10,61 @@ void welcome()
 	printf("~~ Welcome to the Math App ~~");
 }
 
-void choice_input(short * choice)
+char choice_input()
 {
+	char choice;
 	printf("\n\n\tMain menu:\n\n");
 	printf("0 ~ Basic matrix arithmetics\n");
 	printf("1 ~ Dot product\n");
 	printf("2 ~ Gram-Schmidt ortogonalization process\n");
 	printf("3 ~ Spiral Matrix generator\n");
 	printf("4 ~ Exit\n\n");
-	printf("Choice: ");
-	scanf("%hd", choice);
-	printf("\n");
+	do
+    {
+        printf("\n\tChoice: ");
+        scanf(" %c", &choice);
+        clearInputBuffer();
+        if (choice < '0' || choice > '4')
+            printf("\n\n>> Please enter a valid number between 0 and 4 <<\n\n");
+    } while (choice < '0' || choice > '4');
+    return choice;
 }	
 
-void directing_math_app(short * choice)
+void directing_math_app()
 {
+	char choice;
 	bool bad_choice = false;
 	welcome();
-	while(*choice != 4)
+	while(choice != '4')
 	{
 		do
 		{
-			choice_input(choice);
-			if(*choice <= 4 && *choice >= 0)
+			choice = choice_input();
+			if(choice <= '4' && choice >= '0')
 			{
-				switch (*choice)
+				switch (choice)
 				{
-				case 0:
+				case '0':
 				{
 					matrix_directing();
 					break;
 				}
-				case 1:
+				case '1':
 				{
 					dot_product_directing();
 					break;
 				}
-				case 2:
+				case '2':
 				{
 					grsch_directing();
 					break;
 				}
-				case 3:
-				{
+				case '3':
+				{ 
 					directing();
 					break;
 				}
-				case 4:
+				case '4':
 				{
 					exit_app();
 					break;
@@ -74,7 +82,6 @@ void directing_math_app(short * choice)
 
 int main()
 {
-	short choice;
-	directing_math_app(&choice);
+	directing_math_app();
 	return 0;
 }

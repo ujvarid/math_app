@@ -3,6 +3,7 @@
 
 void matrix_welcome()
 {
+    system("clear");
     printf("~~ Welcome to Basic matrix arithmetics ~~");
 }
 
@@ -91,8 +92,21 @@ void matrix_multiplication_lambda(int *** matrix, short height, short width)
 {
     printf("\n\nPlease supply the value for the multiplication with the matrix\n\n\n");
     short lambda;
-    printf("value: ");
-    scanf("%hd", &lambda);
+    bool bad_input;
+    do
+    {
+        printf("value: ");
+        if (scanf("%hd", &lambda) != 1)
+        {
+            printf("\n\n>> Please enter a valid number. <<\n\n");
+            while (getchar() != '\n');
+            bad_input = true;
+        }
+        else
+        {
+            bad_input = false;
+        }
+    } while (bad_input);
     printf("\n\n");
     for(short i = 0; i < height; ++i) 
     {
@@ -263,10 +277,24 @@ void matrix_addition(int *** matrix, short height, short width)
 void matrix_input(int *** matrix, short * height, short * width)
 {
     printf("\n\nFirst, please supply the values of the matrix that you want to compute with\n");
-    printf("\n\nThe height of the matrix: ");
-    scanf("%hd", height);
-    printf("\nThe width of the matrix: ");
-    scanf("%hd", width);
+    do
+    {
+        printf("\n\nThe height of the matrix: ");
+        scanf("%hd", height);
+        if(*height <= 0)
+            printf("\n\n>> Please enter a valid number greater than zero <<\n\n");
+        while(getchar() != '\n'){};
+    } while (*height <= 0);
+    
+    do
+    {
+        printf("\nThe width of the matrix: ");
+        scanf("%hd", width);
+        if(*width <= 0)
+            printf("\n\n>> Please enter a valid number bigger than zero <<\n\n");
+        while(getchar() != '\n'){};
+    } while (*width <= 0);
+
     printf("\n");
     matrix_generating(matrix, *height, *width);
     matrix_init(matrix, *height, *width);
@@ -282,8 +310,9 @@ void matrix_input(int *** matrix, short * height, short * width)
     matrix_print(*matrix, *height, *width);
 }
 
-void matrix_choice_input(short * choice)
+char matrix_choice_input()
 {
+    char choice;
     printf("\n\n\tMatrix menu:\n\n");
 	printf("0 ~ Matrix addtion with a matrix\n");
 	printf("1 ~ Matrix addition with a constant\n");
@@ -291,15 +320,24 @@ void matrix_choice_input(short * choice)
 	printf("3 ~ Matrix multiplication with a constant\n");
 	printf("4 ~ Matrix transposing\n");
     printf("5 ~ Exit\n\n");
-	printf("Choice: ");
-	scanf("%hd", choice);
+	do
+    {
+        printf("\n\tChoice: ");
+        scanf(" %c", &choice);
+
+        while(getchar() != '\n'){};
+
+        if (choice < '0' || choice > '5')
+            printf("\n\n>> Please enter a valid number between 0 and 5 <<\n\n");
+    } while (choice < '0' || choice > '5');
+    return choice;
 }
 
 void matrix_directing()
 {
     int ** matrix = NULL;
     short height = 0, width = 0;
-    short choice;
+    char choice;
     bool bad_choice = false;
 
     matrix_welcome();
@@ -309,37 +347,37 @@ void matrix_directing()
     {    
         do
         {
-            matrix_choice_input(&choice);
-            if(choice <= 5 && choice >= 0)
+            choice = matrix_choice_input();
+            if(choice <= '5' && choice >= '0')
             {
                 switch (choice)
                 {
-                case 0:
+                case '0':
                 {
                     matrix_addition(&matrix, height, width);
                     break;
                 }
-                case 1:
+                case '1':
                 {
                     matrix_addition_constant(&matrix, height, width);
                     break;
                 }
-                case 2:
+                case '2':
                 {
                     matrix_multiplication(&matrix, &height, &width);
                     break;
                 }
-                case 3:
+                case '3':
                 {
                     matrix_multiplication_lambda(&matrix, height, width);
                     break;
                 }
-                case 4:
+                case '4':
                 {
                     matrix_transpose(&matrix, &height, &width);
                     break;
                 }
-                case 5:
+                case '5':
                 {
                     printf("\n\n\tGoodbye!\n\n");
                     break;
@@ -353,7 +391,7 @@ void matrix_directing()
             }
 
         } while (bad_choice);
-    } while (choice != 5);
+    } while (choice != '5');
 
     matrix_free(matrix, height, width);
 }

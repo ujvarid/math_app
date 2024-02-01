@@ -1,2 +1,2 @@
-- dot_product és grsch header egyesítés
-- mátrix mátrixszal szorzás
+- robosztus
+- egy dimenziós mátrixszal szorzás nem működik

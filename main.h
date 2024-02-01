@@ -13,7 +13,7 @@
 
 void exit_app();
 void welcome();
-void choice_input(short * choice);
-void directing_math_app(short * choice);
+char choice_input();
+void directing_math_app();
 
 #endif

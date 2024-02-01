@@ -18,7 +18,8 @@ void matrix_addition_constant(int *** matrix, short height, short width);
 void matrix_addition(int *** matrix, short height, short width);
 void matrix_input(int *** matrix, short * height, short * width);
 void matrix_welcome();
-void matrix_choice_input(short * choice);
+char matrix_choice_input();
 void matrix_directing();
+void printHelp();
 
 #endif
