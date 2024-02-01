@@ -7,12 +7,12 @@ void exit_app()
 
 void welcome()
 {
-	printf("~~ Welcome to Linear Algebra ~~");
+	printf("~~ Welcome to the Math App ~~");
 }
 
 void choice_input(short * choice)
 {
-	printf("\n\nMenu:\n\n");
+	printf("\n\n\tMain menu:\n\n");
 	printf("0 ~ Basic matrix arithmetics\n");
 	printf("1 ~ Dot product\n");
 	printf("2 ~ Gram-Schmidt ortogonalization process\n");

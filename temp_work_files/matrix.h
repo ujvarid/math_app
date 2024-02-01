@@ -12,6 +12,8 @@ void matrix_print(int ** matrix, short height, short width);
 void matrix_init(int *** matrix, short height, short width);
 void matrix_transpose(int *** matrix, short *height, short *width);
 void matrix_multiplication_lambda(int *** matrix, short height, short width);
+void copy_matrix(int *** matrix, short height, short width, int *** temp_matrix);
+void matrix_multiplication(int *** matrix, short * height, short * width);
 void matrix_addition_constant(int *** matrix, short height, short width);
 void matrix_addition(int *** matrix, short height, short width);
 void matrix_input(int *** matrix, short * height, short * width);
