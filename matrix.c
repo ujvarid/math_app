@@ -185,7 +185,7 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
         for (short j = 0; j < *width; j++)
         {
             sum = 0;
-            for (short k = 0; k < copy_width; k++) // nem jó ha egy dimenziós a mátrix 
+            for (short k = 0; k < copy_width; k++) 
             {
                 sum += temp_matrix[i][k] * multiplication_matrix[k][j];
             }
