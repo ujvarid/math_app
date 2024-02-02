@@ -3,7 +3,6 @@
 
 void matrix_welcome()
 {
-    system("clear");
     printf("~~ Welcome to Basic matrix arithmetics ~~");
 }
 

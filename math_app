@@ -12,8 +12,6 @@ echo
 
 sleep 1
 
-clear
-
 ./a.out
 
 sleep 1

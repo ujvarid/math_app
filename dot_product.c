@@ -29,7 +29,7 @@ void dot_product_input(short * size, int ** vektor1, int ** vektor2)
 
 void dot_product_welcome()
 {
-    printf("~~ Welcome to Dot product ~~\n\n");
+    	printf("~~ Welcome to Dot product ~~\n\n");
 }
 
 void result(int * vektor1, int * vektor2, short size, int dotproduct)

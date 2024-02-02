@@ -7,6 +7,7 @@ void exit_app()
 
 void welcome()
 {
+	system("clear");
 	printf("~~ Welcome to the Math App ~~");
 }
 
@@ -42,6 +43,7 @@ void directing_math_app()
 			choice = choice_input();
 			if(choice <= '4' && choice >= '0')
 			{
+				system("clear");
 				switch (choice)
 				{
 				case '0':

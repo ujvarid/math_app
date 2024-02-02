@@ -1,1 +1,3 @@
 - robosztus
+- clear jobban
+- bemenet csekkolás mindenhol
