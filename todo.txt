@@ -1,2 +1,1 @@
 - robosztus
-- egy dimenziós mátrixszal szorzás nem működik
