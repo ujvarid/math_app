@@ -138,8 +138,21 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
     short multiplication_matrix_height, multiplication_matrix_width;
     printf("\n\nThe height of the matrix to be multiplied must be equal to the current width of the matrix, so the height is %hd\n", *width);
     multiplication_matrix_height = *width;
-    printf("\nThe width of the matrix: ");
-    scanf("%hd", &multiplication_matrix_width);
+    bool bad_input;
+    do
+    {
+        printf("\nThe width of the matrix: ");
+        if (scanf("%hd", &multiplication_matrix_width) != 1)
+        {
+            printf("\n\n>> Please enter a valid number. <<\n\n");
+            while (getchar() != '\n');
+            bad_input = true;
+        }
+        else
+        {
+            bad_input = false;
+        }
+    } while (bad_input);
     matrix_generating(&multiplication_matrix, multiplication_matrix_height, multiplication_matrix_width);
     matrix_init(&multiplication_matrix, multiplication_matrix_height, multiplication_matrix_width);
     printf("\n\nPlease supply the values of the matrix for the multiplication:\n\n");
@@ -147,8 +160,21 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
     {
         for (short j = 0; j < multiplication_matrix_width; ++j)
         {
-            printf("(%hd, %hd): ", (i+1), (j+1));
-            scanf("%d", &multiplication_matrix[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("(%hd, %hd): ", (i+1), (j+1));
+                if (scanf("%d", &multiplication_matrix[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
         }
         printf("\n");
     }
