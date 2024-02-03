@@ -267,8 +267,22 @@ void matrix_addition(int *** matrix, short height, short width)
     {
         for (short j = 0; j < width; ++j)
         {
-            printf("(%hd, %hd): ", (i+1), (j+1));
-            scanf("%d", &(temp_add_matrix)[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("(%hd, %hd): ", (i+1), (j+1));
+                if (scanf("%d", &(temp_add_matrix)[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
+            
         }
         printf("\n");
     }
@@ -334,8 +348,21 @@ void matrix_input(int *** matrix, short * height, short * width)
     {
         for (short j = 0; j < *width; ++j)
         {
-            printf("(%hd, %hd): ", (i+1), (j+1));
-            scanf("%d", &(*matrix)[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("(%hd, %hd): ", (i+1), (j+1));
+                if (scanf("%d", &(*matrix)[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
         }
         printf("\n");
     }
