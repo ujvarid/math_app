@@ -6,7 +6,7 @@ void matrix_welcome()
     printf("~~ Welcome to Basic matrix arithmetics ~~");
 }
 
-void printHelp()
+void matrix_help_print()
 {
     printf("\n\t |\n\t |\n\t V\n\n");   
 }
@@ -54,21 +54,27 @@ void matrix_init(int *** matrix, short height, short width)
     }
 }
 
+
+void copy_matrix(int *** matrix, short height, short width, int *** temp_matrix)
+{
+    matrix_generating(temp_matrix, height, width);
+    matrix_init(temp_matrix,height,width);
+    for (short i = 0; i < height; ++i)
+    {
+        for(short j = 0; j < width; ++j)
+        {
+            (*temp_matrix)[i][j] = (*matrix)[i][j];
+        }
+    }
+    
+}
+
 void matrix_transpose(int *** matrix, short *height, short *width) 
 {
     int ** temp_copy_matrix = NULL;
     
-    matrix_generating(&temp_copy_matrix, *height, *width);
-    matrix_init(&temp_copy_matrix, *height, *width);
-    
-    for(short i = 0; i < *height; ++i)
-    {
-        for (short j = 0; j < *width; ++j)
-        {
-            temp_copy_matrix[i][j] = (*matrix)[i][j];
-        }
-    }
-    
+    copy_matrix(matrix, *height, *width, &temp_copy_matrix);
+
     matrix_free(*matrix, *height, *width);
     matrix_generating(matrix, *width, *height);
 
@@ -79,8 +85,10 @@ void matrix_transpose(int *** matrix, short *height, short *width)
             (*matrix)[j][i] = temp_copy_matrix[i][j];
         }
     }
-    matrix_free(temp_copy_matrix, *height, *width);
     printf("\n\nTransposed matrix: \n\n\n");
+    matrix_print(*matrix, *height, *width);
+    matrix_help_print();
+    matrix_free(temp_copy_matrix, *height, *width);
     short temp = *width;
     *width = *height;
     *height = temp;
@@ -120,22 +128,8 @@ void matrix_multiplication_lambda(int *** matrix, short height, short width)
         }
         printf("\n");
     }
-    printHelp();
+    matrix_help_print();
     matrix_print(*matrix, height, width);
-}
-
-void copy_matrix(int *** matrix, short height, short width, int *** temp_matrix)
-{
-    matrix_generating(temp_matrix, height, width);
-    matrix_init(temp_matrix,height,width);
-    for (short i = 0; i < height; ++i)
-    {
-        for(short j = 0; j < width; ++j)
-        {
-            (*temp_matrix)[i][j] = (*matrix)[i][j];
-        }
-    }
-    
 }
 
 void matrix_multiplication(int *** matrix, short * height, short * width)
@@ -163,7 +157,7 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
     matrix_print(multiplication_matrix, multiplication_matrix_height, multiplication_matrix_width);
     printf("\n\n\t *\n\n");
     matrix_print(*matrix, *height, *width);
-    printHelp();
+    matrix_help_print();
 
     int ** temp_matrix = NULL;
     
@@ -202,8 +196,21 @@ void matrix_addition_constant(int *** matrix, short height, short width)
 {
     printf("\n\nPlease supply the value for the additon with the matrix\n\n\n");
     short lambda;
-    printf("value: ");
-    scanf("%hd", &lambda);
+    bool bad_input;
+    do
+    {
+        printf("value: ");
+        if (scanf("%hd", &lambda) != 1)
+        {
+            printf("\n\n>> Please enter a valid number. <<\n\n");
+            while (getchar() != '\n');
+            bad_input = true;
+        }
+        else
+        {
+            bad_input = false;
+        }
+    } while (bad_input);
     printf("\n\n");
     for(short i = 0; i < height; ++i) 
     {
@@ -218,7 +225,7 @@ void matrix_addition_constant(int *** matrix, short height, short width)
         }
         printf("\n");
     }
-    printHelp();
+    matrix_help_print();
     matrix_print(*matrix, height, width);
 }
 
@@ -259,7 +266,7 @@ void matrix_addition(int *** matrix, short height, short width)
         printf("\n");
     }
 
-    printHelp();
+    matrix_help_print();
 
     for(short i = 0; i < height; ++i)
     {
