@@ -1,6 +1,5 @@
 #include "matrix.h"
 
-
 void matrix_welcome()
 {
     printf("~~ Welcome to Basic matrix arithmetics ~~");
@@ -53,7 +52,6 @@ void matrix_init(int *** matrix, short height, short width)
         }
     }
 }
-
 
 void matrix_copy(int *** matrix, short height, short width, int *** temp_matrix)
 {
@@ -403,7 +401,7 @@ void matrix_directing()
     matrix_input(&matrix, &height, &width);
 
     do
-    {    
+    {   
         do
         {
             choice = matrix_choice_input();
@@ -439,7 +437,9 @@ void matrix_directing()
                 case '5':
                 {
                     printf("\n\n\tGoodbye!\n\n");
-                    break;
+		    system("sleep 1");
+                    system("clear");
+		    break;
                 }
                 }
             }

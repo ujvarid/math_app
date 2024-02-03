@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int dot_product_dp(int * vektor1, int * vektor2, short size);
 void dot_product_input(short * size, int ** vektor1, int ** vektor2);
