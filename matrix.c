@@ -55,7 +55,7 @@ void matrix_init(int *** matrix, short height, short width)
 }
 
 
-void copy_matrix(int *** matrix, short height, short width, int *** temp_matrix)
+void matrix_copy(int *** matrix, short height, short width, int *** temp_matrix)
 {
     matrix_generating(temp_matrix, height, width);
     matrix_init(temp_matrix,height,width);
@@ -73,7 +73,7 @@ void matrix_transpose(int *** matrix, short *height, short *width)
 {
     int ** temp_copy_matrix = NULL;
     
-    copy_matrix(matrix, *height, *width, &temp_copy_matrix);
+    matrix_copy(matrix, *height, *width, &temp_copy_matrix);
 
     matrix_free(*matrix, *height, *width);
     matrix_generating(matrix, *width, *height);
@@ -187,7 +187,7 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
 
     int ** temp_matrix = NULL;
     
-    copy_matrix(matrix, *height, *width, &temp_matrix);
+    matrix_copy(matrix, *height, *width, &temp_matrix);
     matrix_free(*matrix, *height, *width);
 
     short copy_width = *width;
@@ -317,7 +317,7 @@ void matrix_addition(int *** matrix, short height, short width)
     }
 
     matrix_print(*matrix, height, width);
-    matrix_free(*matrix, height, width);
+    matrix_free(temp_add_matrix, height, width);
 }
 
 void matrix_input(int *** matrix, short * height, short * width)
