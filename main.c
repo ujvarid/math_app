@@ -3,6 +3,8 @@
 void exit_app()
 {
 	printf("\n\n\tGoodbye!\n\n");
+	system("sleep 1");
+	system("clear");
 }
 
 void welcome()

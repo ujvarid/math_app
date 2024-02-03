@@ -1,0 +1,25 @@
+- grsch memleak
+
+Number of base vectors of the vector space: 2
+
+Number of components of the base vectors: 2
+
+The value of the 1. vector's 1. component: 2
+The value of the 1. vector's 2. component: 2
+The value of the 2. vector's 1. component: 2
+The value of the 2. vector's 2. component: 2
+LeakSanitizer:DEADLYSIGNAL
+==4953==ERROR: LeakSanitizer: SEGV on unknown address (pc 0x5649f09155a1 bp 0x7ffe848c7290 sp 0x7ffe848c7210 T0)
+==4953==The signal is caused by a READ memory access.
+==4953==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x5649f09155a1 in gram_schmidt_ort_proc /home/ujvari/Dokumentumok/c_prog/private_projects/math_app/gram-schmidt-ort-proc.c:125
+    #1 0x5649f0915fdc in grsch_directing /home/ujvari/Dokumentumok/c_prog/private_projects/math_app/gram-schmidt-ort-proc.c:204
+    #2 0x5649f0916225 in directing_math_app /home/ujvari/Dokumentumok/c_prog/private_projects/math_app/main.c:63
+    #3 0x5649f091627d in main /home/ujvari/Dokumentumok/c_prog/private_projects/math_app/main.c:89
+    #4 0x7f110db82d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #5 0x7f110db82e3f in __libc_start_main_impl ../csu/libc-start.c:392
+    #6 0x5649f09133e4 in _start (/home/ujvari/Dokumentumok/c_prog/private_projects/math_app/a.out+0xb3e4)
+
+LeakSanitizer can not provide additional info.
+SUMMARY: LeakSanitizer: SEGV /home/ujvari/Dokumentumok/c_prog/private_projects/math_app/gram-schmidt-ort-proc.c:125 in gram_schmidt_ort_proc
+==4953==ABORTING

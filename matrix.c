@@ -72,9 +72,10 @@ void matrix_transpose(int *** matrix, short *height, short *width)
     int ** temp_copy_matrix = NULL;
     
     matrix_copy(matrix, *height, *width, &temp_copy_matrix);
-
     matrix_free(*matrix, *height, *width);
     matrix_generating(matrix, *width, *height);
+
+    // a mátrix transzponálása
 
     for(short i = 0; i < *height; ++i)
     {
@@ -83,8 +84,9 @@ void matrix_transpose(int *** matrix, short *height, short *width)
             (*matrix)[j][i] = temp_copy_matrix[i][j];
         }
     }
+    
     printf("\n\nTransposed matrix: \n\n\n");
-    matrix_print(*matrix, *height, *width);
+    matrix_print(temp_copy_matrix, *height, *width);
     matrix_help_print();
     matrix_free(temp_copy_matrix, *height, *width);
     short temp = *width;
@@ -437,9 +439,7 @@ void matrix_directing()
                 case '5':
                 {
                     printf("\n\n\tGoodbye!\n\n");
-		    system("sleep 1");
-                    system("clear");
-		    break;
+                    break;
                 }
                 }
             }

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 
 void grsch_welcome();
 void vector_copy(double * temp_vector, double * original_vector, short component_num);

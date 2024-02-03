@@ -38,13 +38,27 @@ double dot_product(double *vector1, double *vector2, short component_num)
 
 void base_vectors_input(short *component_num, short *base_vector_num, double ***vector_space)
 {
-    printf("Number of base vectors of the vector space: ");
-    scanf("%hd", base_vector_num);
+    do
+    {
+        printf("\nNumber of base vectors of the vector space: ");
+        scanf("%hd", base_vector_num);
+        if(*base_vector_num <= 0)
+            printf("\n\n>> Please enter a valid number greater than zero <<\n\n");
+        while(getchar() != '\n'){};
+    } while (*base_vector_num <= 0);
 
     *vector_space = (double **)malloc(sizeof(double *) * (*base_vector_num));
 
-    printf("Number of components of the base vectors: ");
-    scanf("%hd", component_num);
+    do
+    {
+        printf("\nNumber of components of the base vectors: ");
+        scanf("%hd", component_num);
+        if(*component_num <= 0)
+            printf("\n\n>> Please enter a valid number greater than zero <<\n\n");
+        while(getchar() != '\n'){};
+    } while (*component_num <= 0);
+
+    printf("\n");
 
     for (int i = 0; i < *base_vector_num; ++i)
     {
@@ -52,8 +66,21 @@ void base_vectors_input(short *component_num, short *base_vector_num, double ***
 
         for (int j = 0; j < *component_num; ++j)
         {
-            printf("The value of the %d. vector's %d. component: ", (i + 1), (j + 1));
-            scanf("%lf", &(*vector_space)[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("The value of the %d. vector's %d. component: ", (i + 1), (j + 1));
+                if (scanf("%lf", &(*vector_space)[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
         }
     }
 }

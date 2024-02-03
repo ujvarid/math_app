@@ -13,7 +13,3 @@ echo
 sleep 1
 
 ./a.out
-
-sleep 1
-
-clear
