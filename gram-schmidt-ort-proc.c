@@ -121,8 +121,9 @@ void gram_schmidt_ort_proc(double ***orthogonal_system, double *** orthonormal_s
             vector_copy((*orthonormal_system)[i], temp_orthonorm_vector, component_num);
         }
         else
-            for(int j = 0; j < component_num; ++j)
-                *orthonormal_system[i][j] = 0.0;
+        {
+            printf("\n\nIncorrect vectorspace\n\n");
+        }
     }
 
     free(temp_orthonorm_vector);    
