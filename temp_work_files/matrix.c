@@ -1,12 +1,11 @@
 #include "matrix.h"
 
-
 void matrix_welcome()
 {
     printf("~~ Welcome to Basic matrix arithmetics ~~");
 }
 
-void printHelp()
+void matrix_help_print()
 {
     printf("\n\t |\n\t |\n\t V\n\n");   
 }
@@ -54,23 +53,29 @@ void matrix_init(int *** matrix, short height, short width)
     }
 }
 
+void matrix_copy(int *** matrix, short height, short width, int *** temp_matrix)
+{
+    matrix_generating(temp_matrix, height, width);
+    matrix_init(temp_matrix,height,width);
+    for (short i = 0; i < height; ++i)
+    {
+        for(short j = 0; j < width; ++j)
+        {
+            (*temp_matrix)[i][j] = (*matrix)[i][j];
+        }
+    }
+    
+}
+
 void matrix_transpose(int *** matrix, short *height, short *width) 
 {
     int ** temp_copy_matrix = NULL;
     
-    matrix_generating(&temp_copy_matrix, *height, *width);
-    matrix_init(&temp_copy_matrix, *height, *width);
-    
-    for(short i = 0; i < *height; ++i)
-    {
-        for (short j = 0; j < *width; ++j)
-        {
-            temp_copy_matrix[i][j] = (*matrix)[i][j];
-        }
-    }
-    
+    matrix_copy(matrix, *height, *width, &temp_copy_matrix);
     matrix_free(*matrix, *height, *width);
     matrix_generating(matrix, *width, *height);
+
+    // a mátrix transzponálása
 
     for(short i = 0; i < *height; ++i)
     {
@@ -79,8 +84,11 @@ void matrix_transpose(int *** matrix, short *height, short *width)
             (*matrix)[j][i] = temp_copy_matrix[i][j];
         }
     }
-    matrix_free(temp_copy_matrix, *height, *width);
+    
     printf("\n\nTransposed matrix: \n\n\n");
+    matrix_print(temp_copy_matrix, *height, *width);
+    matrix_help_print();
+    matrix_free(temp_copy_matrix, *height, *width);
     short temp = *width;
     *width = *height;
     *height = temp;
@@ -91,8 +99,21 @@ void matrix_multiplication_lambda(int *** matrix, short height, short width)
 {
     printf("\n\nPlease supply the value for the multiplication with the matrix\n\n\n");
     short lambda;
-    printf("value: ");
-    scanf("%hd", &lambda);
+    bool bad_input;
+    do
+    {
+        printf("value: ");
+        if (scanf("%hd", &lambda) != 1)
+        {
+            printf("\n\n>> Please enter a valid number. <<\n\n");
+            while (getchar() != '\n');
+            bad_input = true;
+        }
+        else
+        {
+            bad_input = false;
+        }
+    } while (bad_input);
     printf("\n\n");
     for(short i = 0; i < height; ++i) 
     {
@@ -107,22 +128,8 @@ void matrix_multiplication_lambda(int *** matrix, short height, short width)
         }
         printf("\n");
     }
-    printHelp();
+    matrix_help_print();
     matrix_print(*matrix, height, width);
-}
-
-void copy_matrix(int *** matrix, short height, short width, int *** temp_matrix)
-{
-    matrix_generating(temp_matrix, height, width);
-    matrix_init(temp_matrix,height,width);
-    for (short i = 0; i < height; ++i)
-    {
-        for(short j = 0; j < width; ++j)
-        {
-            (*temp_matrix)[i][j] = (*matrix)[i][j];
-        }
-    }
-    
 }
 
 void matrix_multiplication(int *** matrix, short * height, short * width)
@@ -131,8 +138,21 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
     short multiplication_matrix_height, multiplication_matrix_width;
     printf("\n\nThe height of the matrix to be multiplied must be equal to the current width of the matrix, so the height is %hd\n", *width);
     multiplication_matrix_height = *width;
-    printf("\nThe width of the matrix: ");
-    scanf("%hd", &multiplication_matrix_width);
+    bool bad_input;
+    do
+    {
+        printf("\nThe width of the matrix: ");
+        if (scanf("%hd", &multiplication_matrix_width) != 1)
+        {
+            printf("\n\n>> Please enter a valid number. <<\n\n");
+            while (getchar() != '\n');
+            bad_input = true;
+        }
+        else
+        {
+            bad_input = false;
+        }
+    } while (bad_input);
     matrix_generating(&multiplication_matrix, multiplication_matrix_height, multiplication_matrix_width);
     matrix_init(&multiplication_matrix, multiplication_matrix_height, multiplication_matrix_width);
     printf("\n\nPlease supply the values of the matrix for the multiplication:\n\n");
@@ -140,8 +160,21 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
     {
         for (short j = 0; j < multiplication_matrix_width; ++j)
         {
-            printf("(%hd, %hd): ", (i+1), (j+1));
-            scanf("%d", &multiplication_matrix[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("(%hd, %hd): ", (i+1), (j+1));
+                if (scanf("%d", &multiplication_matrix[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
         }
         printf("\n");
     }
@@ -150,11 +183,11 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
     matrix_print(multiplication_matrix, multiplication_matrix_height, multiplication_matrix_width);
     printf("\n\n\t *\n\n");
     matrix_print(*matrix, *height, *width);
-    printHelp();
+    matrix_help_print();
 
     int ** temp_matrix = NULL;
     
-    copy_matrix(matrix, *height, *width, &temp_matrix);
+    matrix_copy(matrix, *height, *width, &temp_matrix);
     matrix_free(*matrix, *height, *width);
 
     short copy_width = *width;
@@ -171,7 +204,7 @@ void matrix_multiplication(int *** matrix, short * height, short * width)
         for (short j = 0; j < *width; j++)
         {
             sum = 0;
-            for (short k = 0; k < *width; k++)
+            for (short k = 0; k < copy_width; k++) 
             {
                 sum += temp_matrix[i][k] * multiplication_matrix[k][j];
             }
@@ -189,8 +222,21 @@ void matrix_addition_constant(int *** matrix, short height, short width)
 {
     printf("\n\nPlease supply the value for the additon with the matrix\n\n\n");
     short lambda;
-    printf("value: ");
-    scanf("%hd", &lambda);
+    bool bad_input;
+    do
+    {
+        printf("value: ");
+        if (scanf("%hd", &lambda) != 1)
+        {
+            printf("\n\n>> Please enter a valid number. <<\n\n");
+            while (getchar() != '\n');
+            bad_input = true;
+        }
+        else
+        {
+            bad_input = false;
+        }
+    } while (bad_input);
     printf("\n\n");
     for(short i = 0; i < height; ++i) 
     {
@@ -205,7 +251,7 @@ void matrix_addition_constant(int *** matrix, short height, short width)
         }
         printf("\n");
     }
-    printHelp();
+    matrix_help_print();
     matrix_print(*matrix, height, width);
 }
 
@@ -221,8 +267,22 @@ void matrix_addition(int *** matrix, short height, short width)
     {
         for (short j = 0; j < width; ++j)
         {
-            printf("(%hd, %hd): ", (i+1), (j+1));
-            scanf("%d", &(temp_add_matrix)[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("(%hd, %hd): ", (i+1), (j+1));
+                if (scanf("%d", &(temp_add_matrix)[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
+            
         }
         printf("\n");
     }
@@ -246,7 +306,7 @@ void matrix_addition(int *** matrix, short height, short width)
         printf("\n");
     }
 
-    printHelp();
+    matrix_help_print();
 
     for(short i = 0; i < height; ++i)
     {
@@ -257,12 +317,12 @@ void matrix_addition(int *** matrix, short height, short width)
     }
 
     matrix_print(*matrix, height, width);
-    matrix_free(*matrix, height, width);
+    matrix_free(temp_add_matrix, height, width);
 }
 
 void matrix_determinant(int ** matrix, short height, short width)
 {
-    short det = 0;
+    int det = 0;
     
     if(height != width)
     {
@@ -281,7 +341,7 @@ void matrix_determinant(int ** matrix, short height, short width)
 
     if(height == 3)
     {
-            short temp_det;
+            int temp_det;
             short k, y;
             for (short i = 0; i < width; ++i)
             {
@@ -316,16 +376,30 @@ void matrix_determinant(int ** matrix, short height, short width)
             }
     }
 
-    printf("\n\nThe matrices determinant is: %hd\n\n", det);
+    printf("\n\nThe matrices determinant is: %d\n\n", det);
 }
 
 void matrix_input(int *** matrix, short * height, short * width)
 {
     printf("\n\nFirst, please supply the values of the matrix that you want to compute with\n");
-    printf("\n\nThe height of the matrix: ");
-    scanf("%hd", height);
-    printf("\nThe width of the matrix: ");
-    scanf("%hd", width);
+    do
+    {
+        printf("\n\nThe height of the matrix: ");
+        scanf("%hd", height);
+        if(*height <= 0)
+            printf("\n\n>> Please enter a valid number greater than zero <<\n\n");
+        while(getchar() != '\n'){};
+    } while (*height <= 0);
+    
+    do
+    {
+        printf("\nThe width of the matrix: ");
+        scanf("%hd", width);
+        if(*width <= 0)
+            printf("\n\n>> Please enter a valid number bigger than zero <<\n\n");
+        while(getchar() != '\n'){};
+    } while (*width <= 0);
+
     printf("\n");
     matrix_generating(matrix, *height, *width);
     matrix_init(matrix, *height, *width);
@@ -333,16 +407,30 @@ void matrix_input(int *** matrix, short * height, short * width)
     {
         for (short j = 0; j < *width; ++j)
         {
-            printf("(%hd, %hd): ", (i+1), (j+1));
-            scanf("%d", &(*matrix)[i][j]);
+            bool bad_input;
+            do
+            {
+                printf("(%hd, %hd): ", (i+1), (j+1));
+                if (scanf("%d", &(*matrix)[i][j]) != 1)
+                {
+                    printf("\n\n>> Please enter a valid number. <<\n\n");
+                    while (getchar() != '\n');
+                    bad_input = true;
+                }
+                else
+                {
+                    bad_input = false;
+                }
+            } while (bad_input);
         }
         printf("\n");
     }
     matrix_print(*matrix, *height, *width);
 }
 
-void matrix_choice_input(short * choice)
+char matrix_choice_input()
 {
+    char choice;
     printf("\n\n\tMenu:\n\n");
 	printf("0 ~ Matrix addtion with a matrix\n");
 	printf("1 ~ Matrix addition with a constant\n");
@@ -351,79 +439,74 @@ void matrix_choice_input(short * choice)
 	printf("4 ~ Matrix transposing\n");
     printf("5 ~ Determinant calculating\n");
     printf("6 ~ Exit\n\n");
-	printf("Choice: ");
-	scanf("%hd", choice);
+	do
+    {
+        printf("\n\tChoice: ");
+        scanf(" %c", &choice);
+
+        while(getchar() != '\n'){};
+
+        if (choice < '0' || choice > '6')
+            printf("\n\n>> Please enter a valid number between 0 and 5 <<\n\n");
+    } while (choice < '0' || choice > '6');
+    return choice;
 }
 
 void matrix_directing()
 {
     int ** matrix = NULL;
     short height = 0, width = 0;
-    short choice;
+    char choice;
     bool bad_choice = false;
 
     matrix_welcome();
     matrix_input(&matrix, &height, &width);
 
     do
-    {    
+    {   
         do
         {
-            matrix_choice_input(&choice);
-            if(choice <= 6 && choice >= 0)
+            choice = matrix_choice_input();
+            switch (choice)
             {
-                switch (choice)
-                {
-                case 0:
+                case '0':
                 {
                     matrix_addition(&matrix, height, width);
                     break;
                 }
-                case 1:
+                case '1':
                 {
                     matrix_addition_constant(&matrix, height, width);
                     break;
                 }
-                case 2:
+                case '2':
                 {
                     matrix_multiplication(&matrix, &height, &width);
                     break;
                 }
-                case 3:
+                case '3':
                 {
                     matrix_multiplication_lambda(&matrix, height, width);
                     break;
                 }
-                case 4:
+                case '4':
                 {
                     matrix_transpose(&matrix, &height, &width);
                     break;
                 }
-                case 5:
+                case '5':
                 {
                     matrix_determinant(matrix, height, width);
                     break;
                 }
-                case 6:
+                case '6':
                 {
                     printf("\n\n\tGoodbye!\n\n");
                     break;
                 }
-                }
             }
-            else
-            {
-                printf("\nInvalid choice, please choose again\n\n");
-                bad_choice = true;
-            }
-
         } while (bad_choice);
-    } while (choice != 6);
+    } while (choice != '6');
 
     matrix_free(matrix, height, width);
-}
-
-int main()
-{
-	matrix_directing();
 }
