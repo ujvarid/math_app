@@ -23,3 +23,5 @@ LeakSanitizer:DEADLYSIGNAL
 LeakSanitizer can not provide additional info.
 SUMMARY: LeakSanitizer: SEGV /home/ujvari/Dokumentumok/c_prog/private_projects/math_app/gram-schmidt-ort-proc.c:125 in gram_schmidt_ort_proc
 ==4953==ABORTING
+
+- 0.5-öt adok neki akkor beszarik
