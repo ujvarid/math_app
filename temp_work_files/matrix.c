@@ -320,16 +320,10 @@ void matrix_addition(int *** matrix, short height, short width)
     matrix_free(temp_add_matrix, height, width);
 }
 
-int matrix_determinant(int ** matrix, short height, short width)
+long matrix_determinant(int ** matrix, short height, short width)
 {
-    int det = 0;
+    long det = 0;
     
-    if(height != width || height < 2)
-    {
-        printf("\n\n>> Non-square matrices do not have determinants <<\n\n");
-        return 0;
-    }
-
     // 2x2-es mátrix
 
     if(height == 2)
@@ -338,48 +332,12 @@ int matrix_determinant(int ** matrix, short height, short width)
         return det;
     }
 
-    // 3x3-as mátrix
+    // nxn-es mátrix
 
-    /*if(height == 3)
+    else 
     {
-            int temp_det;
-            short k, y;
-            for (short i = 0; i < width; ++i)
-            {
-
-                temp_det = 0;
-
-                // második koordináta meghatározása (a & c -> k ; b & d -> y)
-
-                if( i > 1)
-                {
-                    k = 0;
-                    y = 1;
-                }
-
-                else
-                {
-                    k = 1 - i;
-                    y = 2;
-                }
-
-                // determináns kiszámolása
-
-                // lehetne height - 2 és így a többi, hogy majd az nxn-esre is jó legyen
-                temp_det = (matrix[1][k] * matrix[2][y]) - (matrix[1][y] * matrix[2][k]); // az i + 2 miatt kilóg ezért beégetett c értékek az i + c értékek helyett
-                temp_det *= matrix[0][i];
-
-                if( i % 2 != 0)
-                    det -= temp_det;
-
-                else
-                    det += temp_det;
-            }
-    }*/
-
-    else // ha több mint 3x3
-    {
-        short ii, jj, temp_det;
+        short ii, jj;
+        long temp_det;
 
 	    for(short k = 0; k < width; ++k)
 	    {
@@ -404,13 +362,11 @@ int matrix_determinant(int ** matrix, short height, short width)
                 {
                     if(j != k)
                     {
-                        //printf("%d ", matrix[i][j]);
                         temp_det_matrix[ii][jj] = matrix[i][j]; // mivel az i nem lehet szar mert 1-től kezdjük?? amugyis csak a j-t csekkoljuk
                         ++jj;
                     }			
                 }
                 ++ii;
-                //printf("\n");
             }
             
             temp_det = matrix_determinant(temp_det_matrix, temp_height, temp_height);
@@ -424,15 +380,10 @@ int matrix_determinant(int ** matrix, short height, short width)
             else
                 det -= temp_det;
 
-            //matrix_print(temp_det_matrix, temp_height, temp_height);
             matrix_free(temp_det_matrix, temp_height, temp_height);
     	}		
         return det;
     }
-
-    //printf("\n\nThe matrices determinant is: %d\n\n", det);
-
-    //return det;
 }
 
 void matrix_input(int *** matrix, short * height, short * width)
@@ -552,8 +503,12 @@ void matrix_directing()
                 }
                 case '5':
                 {
-                    //matrix_determinant(matrix, height, width);
-                    printf("\n\n\nTHE MATRIXES FINAL DETERMINANT IS: %d\n\n", matrix_determinant(matrix, height, width));
+                    if(height != width || height < 2)
+                        printf("\n\n>> The supplied matrix does not have a determinant <<\n\n");
+
+                    else
+                        printf("\n\n\nThe determinant of the matrix is %ld\n\n", matrix_determinant(matrix, height, width));
+
                     break;
                 }
                 case '6':
