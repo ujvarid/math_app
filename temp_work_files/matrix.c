@@ -320,14 +320,14 @@ void matrix_addition(int *** matrix, short height, short width)
     matrix_free(temp_add_matrix, height, width);
 }
 
-void matrix_determinant(int ** matrix, short height, short width)
+int matrix_determinant(int ** matrix, short height, short width)
 {
     int det = 0;
     
-    if(height != width)
+    if(height != width || height < 2)
     {
         printf("\n\n>> Non-square matrices do not have determinants <<\n\n");
-        return;
+        return 0;
     }
 
     // 2x2-es mátrix
@@ -335,11 +335,12 @@ void matrix_determinant(int ** matrix, short height, short width)
     if(height == 2)
     {
         det = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
+        return det;
     }
 
     // 3x3-as mátrix
 
-    if(height == 3)
+    /*if(height == 3)
     {
             int temp_det;
             short k, y;
@@ -364,7 +365,7 @@ void matrix_determinant(int ** matrix, short height, short width)
 
                 // determináns kiszámolása
 
-                // lehetne height - i - 2 és így a többi, hogy majd az nxn-esre is jó legyen
+                // lehetne height - 2 és így a többi, hogy majd az nxn-esre is jó legyen
                 temp_det = (matrix[1][k] * matrix[2][y]) - (matrix[1][y] * matrix[2][k]); // az i + 2 miatt kilóg ezért beégetett c értékek az i + c értékek helyett
                 temp_det *= matrix[0][i];
 
@@ -374,9 +375,64 @@ void matrix_determinant(int ** matrix, short height, short width)
                 else
                     det += temp_det;
             }
+    }*/
+
+    else // ha több mint 3x3
+    {
+        short ii, jj, temp_det;
+
+	    for(short k = 0; k < width; ++k)
+	    {
+            temp_det = 0;
+
+    		//printf("\n\n%hd. submatrix: \n\n", k+1);
+    
+    		// itt ha generálok minden alkalommal egy n-1-es mátrixot, és arra ezt a függvényt rekurzívan meghívom?
+    
+    		int ** temp_det_matrix = NULL;
+    		short temp_height = height - 1; // elég ez, hiszen négyzetes a mátrix
+    
+    		matrix_generating(&temp_det_matrix, temp_height, temp_height); 
+            matrix_init(&temp_det_matrix, temp_height, temp_height);
+
+            ii = 0;
+
+    	    for(short i = 1; i < height; ++i)
+    	   	{
+                jj = 0;
+                for(short j = 0; j < width; ++j)
+                {
+                    if(j != k)
+                    {
+                        //printf("%d ", matrix[i][j]);
+                        temp_det_matrix[ii][jj] = matrix[i][j]; // mivel az i nem lehet szar mert 1-től kezdjük?? amugyis csak a j-t csekkoljuk
+                        ++jj;
+                    }			
+                }
+                ++ii;
+                //printf("\n");
+            }
+            
+            temp_det = matrix_determinant(temp_det_matrix, temp_height, temp_height);
+            temp_det *= matrix[0][k];
+
+            // BE KELL SZOROZNI DE NEM JÓ A MÁTRIX-AL MERT 3X3 FELETT MÁR TEMP_MATRIX-AL KÉNE SZOROZNI AZAZ HÜLYESÉG MERT BÁRMIVEL MEGHÍVOD, AZ matrix-nak lesz elnevezve
+
+            if(k % 2 == 0)
+                det += temp_det;
+
+            else
+                det -= temp_det;
+
+            //matrix_print(temp_det_matrix, temp_height, temp_height);
+            matrix_free(temp_det_matrix, temp_height, temp_height);
+    	}		
+        return det;
     }
 
-    printf("\n\nThe matrices determinant is: %d\n\n", det);
+    //printf("\n\nThe matrices determinant is: %d\n\n", det);
+
+    //return det;
 }
 
 void matrix_input(int *** matrix, short * height, short * width)
@@ -430,13 +486,13 @@ void matrix_input(int *** matrix, short * height, short * width)
 
 char matrix_choice_input()
 {
-    char choice;
-    printf("\n\n\tMenu:\n\n");
-	printf("0 ~ Matrix addtion with a matrix\n");
-	printf("1 ~ Matrix addition with a constant\n");
-	printf("2 ~ Matrix multiplication with a matrix\n");
-	printf("3 ~ Matrix multiplication with a constant\n");
-	printf("4 ~ Matrix transposing\n");
+    char choice; 
+    printf("\n\n\t\tMenu:\n\n");
+    printf("0 ~ Matrix addtion with a matrix\n");
+    printf("1 ~ Matrix addition with a constant\n");
+    printf("2 ~ Matrix multiplication with a matrix\n");
+    printf("3 ~ Matrix multiplication with a constant\n");
+    printf("4 ~ Matrix transposing\n");
     printf("5 ~ Determinant calculating\n");
     printf("6 ~ Exit\n\n");
 	do
@@ -496,7 +552,8 @@ void matrix_directing()
                 }
                 case '5':
                 {
-                    matrix_determinant(matrix, height, width);
+                    //matrix_determinant(matrix, height, width);
+                    printf("\n\n\nTHE MATRIXES FINAL DETERMINANT IS: %d\n\n", matrix_determinant(matrix, height, width));
                     break;
                 }
                 case '6':
@@ -509,4 +566,9 @@ void matrix_directing()
     } while (choice != '6');
 
     matrix_free(matrix, height, width);
+}
+
+int main()
+{
+	matrix_directing();
 }
