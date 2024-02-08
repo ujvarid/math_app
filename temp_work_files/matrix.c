@@ -39,7 +39,6 @@ void matrix_print(int ** matrix, short height, short width)
         }
         printf("\n");
     }
-    
 }
 
 void matrix_init(int *** matrix, short height, short width)
@@ -503,8 +502,11 @@ void matrix_directing()
                 }
                 case '5':
                 {
-                    if(height != width || height < 2)
-                        printf("\n\n>> The supplied matrix does not have a determinant <<\n\n");
+                    if(height != width)
+                        printf("\n\n>> The supplied matrix has to be a square matrix to calculate its determinant <<\n\n");
+
+		    else if(height == 1)
+			    printf("\n\n\nThe determinant of the matrix is %d\n\n", matrix[0][0]);
 
                     else
                         printf("\n\n\nThe determinant of the matrix is %ld\n\n", matrix_determinant(matrix, height, width));
@@ -525,5 +527,5 @@ void matrix_directing()
 
 int main()
 {
-	matrix_directing();
+    matrix_directing();
 }
