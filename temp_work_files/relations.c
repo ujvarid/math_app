@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-short relation_howmany(int ** relations, short count)
+short relations_howmany(int ** relations, short count, int ** diff_nums)
 {
     short howmany = 0;
     short temp;
@@ -13,7 +13,6 @@ short relation_howmany(int ** relations, short count)
         for(short j = 0; j < 2; ++j)
         {
             allnumbers[i*2 + j] = relations[i][j];
-            printf("%d,", allnumbers[i*2+j]); 
         }
     }
 
@@ -30,21 +29,52 @@ short relation_howmany(int ** relations, short count)
         if (temp == 0)
         {
             ++howmany;
-            printf("\n%d", allnumbers[i]);
         }
         
+    }
+
+    *diff_nums = (int*)malloc(sizeof(int) * howmany);
+    howmany = 0;
+
+    for (short i = 0; i < count * 2; ++i) 
+    {
+        temp = 0;
+        for(short j = 0; j < i; ++j)
+        {
+            if(allnumbers[i] == allnumbers[j])
+            {
+                ++temp;
+            }
+        }
+        if (temp == 0)
+        {
+            (*diff_nums)[howmany] = allnumbers[i];
+            ++howmany;
+        }
     }
 
     return howmany;
 }
 
-void relation_reflexive(int ** relations, short count)
+bool relations_reflexive(int ** relations, short count, short howmany, int * diff_nums)
 {
-    // hanyfele algoritmus es kivalasztani a kulonbozoket ugy lenne a leggyorsabb
-    // mallocolsz egy tömböt a különbözőkkel és csak a tömb méretéig nézed mindegyik az-e
-    // először végig hányféle
-    // aztán berakni tömbbe
-    // aztán végig a tömb elemein hogy az összes reflexiv-e, ha nem akkor false, egyebkent true
+    for (short i = 0; i < howmany; i++)
+    {
+        int j = 0;
+        while (j < count)
+        {
+            if(relations[j][0] == diff_nums[i] && relations[i][1] == diff_nums[i])
+            {
+                break;
+            }
+            ++j;
+        }
+        if(j >= count)
+        {
+            return false;
+        }
+    }
+    return true;    
 }
 
 void relations_generate(int *** relations, short count) 
@@ -79,8 +109,18 @@ void relations_directing()
 {
     int ** relations = NULL;
     short count;
+    int * diff_nums;
     relations_get(&relations, &count);
-    printf("kulonbozo elemek szama: %hd", relation_howmany(relations, count));
+    short howmany = relations_howmany(relations, count, &diff_nums);
+    bool relfexive = relations_reflexive(relations, count, howmany, diff_nums);
+    if(relfexive)
+    {
+        printf("\nA relacio reflexiv\n");
+    }
+    else
+    {
+        printf("\nA relacio NEM reflexiv");
+    }
 }
 
 int main()
