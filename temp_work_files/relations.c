@@ -1,6 +1,16 @@
-#include <stdio.h>
+#include <stdio.h> 
 #include <stdlib.h>
 #include <stdbool.h>
+
+void relations_free(int ** relations, int * diff_nums, short count)
+{
+    for (short i = 0; i < count; ++i)
+    {
+        free(relations[i]);
+    }
+    free(relations);
+    free(diff_nums);
+}
 
 short relations_howmany(int ** relations, short count, int ** diff_nums)
 {
@@ -52,29 +62,34 @@ short relations_howmany(int ** relations, short count, int ** diff_nums)
             ++howmany;
         }
     }
-
+    free(allnumbers);
     return howmany;
 }
 
-bool relations_reflexive(int ** relations, short count, short howmany, int * diff_nums)
+void relations_reflexive(int ** relations, short count, short howmany, int * diff_nums)
 {
+    bool reflexive = true;
     for (short i = 0; i < howmany; i++)
     {
         int j = 0;
         while (j < count)
         {
-            if(relations[j][0] == diff_nums[i] && relations[i][1] == diff_nums[i])
+            if(relations[j][0] == diff_nums[i] && relations[j][1] == diff_nums[i])
             {
                 break;
             }
             ++j;
         }
-        if(j >= count)
+        if(j == count)
         {
-            return false;
+            printf("(%d, %d)  ", diff_nums[i], diff_nums[i]);
+            reflexive = false;
         }
     }
-    return true;    
+    if(reflexive)
+        printf("\nThe relation is reflexive.\n\n");
+    else
+        printf("\n\nThe relation is not reflexive it misses the relation(s) above.\n\n");
 }
 
 void relations_generate(int *** relations, short count) 
@@ -112,15 +127,8 @@ void relations_directing()
     int * diff_nums;
     relations_get(&relations, &count);
     short howmany = relations_howmany(relations, count, &diff_nums);
-    bool relfexive = relations_reflexive(relations, count, howmany, diff_nums);
-    if(relfexive)
-    {
-        printf("\nA relacio reflexiv\n");
-    }
-    else
-    {
-        printf("\nA relacio NEM reflexiv");
-    }
+    relations_reflexive(relations, count, howmany, diff_nums);
+    relations_free(relations, diff_nums, count);
 }
 
 int main()
