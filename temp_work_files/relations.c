@@ -12,6 +12,37 @@ void relations_free(int ** relations, int * diff_nums, short count)
     free(diff_nums);
 }
 
+void relations_print()
+{
+    printf("\n\n~~~~~~~~~~~~~~ ANALYIZING ~~~~~~~~~~~~~~\n\n");
+}
+
+void relations_antisymmetric(int ** relations, short count)
+{
+    int temp;
+    bool antisym = true;
+    for (short i = 0; i < count; ++i)
+    {
+        temp = 0;
+        for (short j = 0; j < count; ++j)
+        {
+            if((relations[i][0] == relations[j][1]) && (relations[i][1] == relations[j][0]) && (relations[i][0] != relations[i][1]))
+            {
+                ++temp;
+            }
+        }
+        if(temp > 0)
+        {
+            printf("(%d, %d)  ", relations[i][1], relations[i][0]);
+            antisym = false;
+        }
+    }
+    if(antisym)
+        printf("\nThe relation is antisymmetric.\n\n");
+    else
+        printf("\n\nThe relation is not antisymmetric because it contains the relation(s) above.\n\n");
+}
+
 void relations_symmetric(int ** relations, short count)
 {
     int temp;
@@ -152,9 +183,11 @@ void relations_directing()
     short count;
     int * diff_nums;
     relations_get(&relations, &count);
+    relations_print();
     short howmany = relations_howmany(relations, count, &diff_nums);
-    // relations_reflexive(relations, count, howmany, diff_nums);
+    relations_reflexive(relations, count, howmany, diff_nums);
     relations_symmetric(relations, count);
+    relations_antisymmetric(relations, count);
     relations_free(relations, diff_nums, count);
 }
 
