@@ -12,6 +12,32 @@ void relations_free(int ** relations, int * diff_nums, short count)
     free(diff_nums);
 }
 
+void relations_symmetric(int ** relations, short count)
+{
+    int temp;
+    bool sym = true;
+    for (short i = 0; i < count; ++i)
+    {
+        temp = 0;
+        for (short j = 0; j < count; ++j)
+        {
+            if((relations[i][0] == relations[j][1]) && (relations[i][1] == relations[j][0]))
+            {
+                ++temp;
+            }
+        }
+        if(temp < 1)
+        {
+            printf("(%d, %d)  ", relations[i][1], relations[i][0]);
+            sym = false;
+        }
+    }
+    if(sym)
+        printf("\nThe relation is symmetric.\n\n");
+    else
+        printf("\n\nThe relation is not symmetric it misses the relation(s) above.\n\n");
+}
+
 short relations_howmany(int ** relations, short count, int ** diff_nums)
 {
     short howmany = 0;
@@ -127,14 +153,13 @@ void relations_directing()
     int * diff_nums;
     relations_get(&relations, &count);
     short howmany = relations_howmany(relations, count, &diff_nums);
-    relations_reflexive(relations, count, howmany, diff_nums);
+    // relations_reflexive(relations, count, howmany, diff_nums);
+    relations_symmetric(relations, count);
     relations_free(relations, diff_nums, count);
 }
 
 int main()
 {
-    // kétdimenziós mátrixban tárolja  arelációkat, megadhatsz neki egy relációt és kielemzi, hogy 
-    // tranzitív, szimmetrikus stb
     relations_directing();
     return 0;
 }
